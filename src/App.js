@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
+import AccountManager from './AccountManager'
 
 
 const App = () => (
-  <div className="App">
-  </div>
+  <AccountManager />
 )
 
 export default App;
