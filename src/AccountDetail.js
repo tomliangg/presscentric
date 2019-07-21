@@ -53,9 +53,7 @@ export default class AccountDetail extends Component {
           </Typography>
           {Object.keys(detail).map(prop => (
             <Typography variant="body2" key={prop}>
-              {prop}
-:
-              {detail[prop]}
+              {`${prop}: ${detail[prop]}`}
               <br />
             </Typography>
           ))}
