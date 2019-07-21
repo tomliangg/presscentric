@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Select from 'react-select'
-import Spinner from './Spinner'
 import AccountDetail from './AccountDetail';
+import DeleteSuccess from './DeleteSuccess'
+import Spinner from './Spinner'
 
 const data = require('./accounts.json')
 export const URL = 'https://dev.presscentric.com/test/accounts'
@@ -9,7 +10,9 @@ export const URL = 'https://dev.presscentric.com/test/accounts'
 export default class AccountManager extends Component {
   state = {
     accounts: null,
-    selectedAccount: null
+    selectedAccount: null,
+    deletedAccount: null,
+    open: false
   }
 
   handleChange = selectedAccount => {
@@ -18,12 +21,17 @@ export default class AccountManager extends Component {
 
   handleDelete = () => {
     const { accounts, selectedAccount } = this.state
+    fetch(`${URL}/${selectedAccount.id}`, { method: 'delete' })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
 
     const remainingAccounts = accounts.filter(account => account.id !== selectedAccount.id)
-    this.setState({
+    this.setState(prevState => ({
       accounts: remainingAccounts,
-      selectedAccount: null
-    })
+      deletedAccount: prevState.selectedAccount,
+      selectedAccount: null,
+      open: true
+    }))
   }
 
   componentDidMount() {
@@ -37,7 +45,7 @@ export default class AccountManager extends Component {
   }
 
   render() {
-    const { accounts, selectedAccount } = this.state
+    const { accounts, selectedAccount, deletedAccount, open } = this.state
     if (accounts === null) return <Spinner />
     else return (accounts.length ? (
       <Fragment>
@@ -47,9 +55,10 @@ export default class AccountManager extends Component {
           getOptionLabel={option => option.name}
           getOptionValue={option => option.name}
           options={accounts}
-          placeholder='select an account'
+          placeholder='select an account to check details'
         />
         <AccountDetail account={selectedAccount} deleteHandler={this.handleDelete} />
+        <DeleteSuccess open={open} account={deletedAccount} />
       </Fragment>
     ) : (
       <p>You have deleted all the accounts</p>

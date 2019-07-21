@@ -28,14 +28,12 @@ export default class AccountDetail extends Component {
     const oldAccount = prevProps.account
     const newAccount = this.props.account
     if (newAccount && oldAccount !== newAccount) {
-      console.log('boom')
       fetch(`${URL}/${newAccount.id}`)
         .then(res => res.json())
         .then(detail => this.setState({ detail }))
         .catch(err => {
           console.log(err)
           const detail = data.filter(d => d.id === newAccount.id)[0]
-          console.log(detail)
           this.setState({ detail })
         })
     }
