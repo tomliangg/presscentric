@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 import styled from 'styled-components'
-import AccountDetail from './AccountDetail';
+import AccountDetail from './AccountDetail'
 import DeleteSuccess from './DeleteSuccess'
 import Spinner from './Spinner'
 
@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 `
 
 const data = require('./accounts.json')
+
 export const URL = 'https://dev.presscentric.com/test/accounts'
 
 export default class AccountManager extends Component {
@@ -19,10 +20,20 @@ export default class AccountManager extends Component {
     accounts: null,
     selectedAccount: null,
     deletedAccount: null,
-    open: false
+    open: false,
   }
 
-  handleChange = selectedAccount => {
+  componentDidMount() {
+    fetch(URL)
+      .then(res => res.json())
+      .then(json => this.setState({ accounts: json }))
+      .catch((err) => {
+        console.log(err)
+        this.setState({ accounts: data })
+      })
+  }
+
+  handleChange = (selectedAccount) => {
     this.setState({ selectedAccount })
   }
 
@@ -37,27 +48,19 @@ export default class AccountManager extends Component {
       accounts: remainingAccounts,
       deletedAccount: prevState.selectedAccount,
       selectedAccount: null,
-      open: true
+      open: true,
     }))
     setTimeout(() => {
       this.setState({ open: false })
     }, 2000)
   }
 
-  componentDidMount() {
-    fetch(URL)
-      .then(res => res.json())
-      .then(json => this.setState({ accounts: json }))
-      .catch(err => {
-        console.log(err)
-        this.setState({ accounts: data })
-      })
-  }
-
   render() {
-    const { accounts, selectedAccount, deletedAccount, open } = this.state
+    const {
+      accounts, selectedAccount, deletedAccount, open,
+    } = this.state
     if (accounts === null) return <Spinner />
-    else return (accounts.length ? (
+    return (accounts.length ? (
       <Wrapper>
         <Select
           value={selectedAccount}
@@ -65,7 +68,7 @@ export default class AccountManager extends Component {
           getOptionLabel={option => option.name}
           getOptionValue={option => option.name}
           options={accounts}
-          placeholder='select an account to check details'
+          placeholder="select an account to check details"
         />
         <AccountDetail account={selectedAccount} deleteHandler={this.handleDelete} />
         <DeleteSuccess open={open} account={deletedAccount} />

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
-import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Spinner from './Spinner'
 import { URL } from './AccountManager'
@@ -21,17 +22,17 @@ const BtnWrapper = styled.div`
 
 export default class AccountDetail extends Component {
   state = {
-    detail: null
+    detail: null,
   }
 
   componentDidUpdate(prevProps) {
-    const oldAccount = prevProps.account
-    const newAccount = this.props.account
+    const { account: oldAccount } = prevProps
+    const { account: newAccount } = this.props
     if (newAccount && oldAccount !== newAccount) {
       fetch(`${URL}/${newAccount.id}`)
         .then(res => res.json())
         .then(detail => this.setState({ detail }))
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           const detail = data.filter(d => d.id === newAccount.id)[0]
           this.setState({ detail })
@@ -47,23 +48,25 @@ export default class AccountDetail extends Component {
     return (detail !== null) ? (
       <Wrapper>
         <Paper style={{ padding: '10px' }}>
-          <Typography variant='h5'>
+          <Typography variant="h5">
             Account Details
           </Typography>
           {Object.keys(detail).map(prop => (
-            <Typography variant='body2' key={prop}>
-              {prop}: {detail[prop]}
+            <Typography variant="body2" key={prop}>
+              {prop}
+:
+              {detail[prop]}
               <br />
             </Typography>
           ))}
           <BtnWrapper>
             <Button
-              variant='contained'
-              color='secondary'
+              variant="contained"
+              color="secondary"
               onClick={deleteHandler}
-              >
+            >
                 Delete
-                <DeleteIcon />
+              <DeleteIcon />
             </Button>
           </BtnWrapper>
         </Paper>
@@ -72,5 +75,9 @@ export default class AccountDetail extends Component {
       <Spinner />
     )
   }
-  
+}
+
+AccountDetail.propTypes = {
+  account: PropTypes.objectOf(PropTypes.object).isRequired,
+  deleteHandler: PropTypes.func.isRequired,
 }

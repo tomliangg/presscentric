@@ -6,4 +6,4 @@ const App = () => (
   <AccountManager />
 )
 
-export default App;
+export default App
