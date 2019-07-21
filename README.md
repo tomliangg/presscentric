@@ -26,7 +26,7 @@ npm start
 
 ## APIs
 * https://dev.presscentric.com/test/accounts - GET endpoints to retrieve the account lists
-* https://dev.presscentric.com/test/accounts/`<account_id>` - GET and DELETE endpoints for a specific account
+* https://dev.presscentric.com/test/accounts/&lt;account_id&gt; - GET and DELETE endpoints for a specific account
 
 ## Test
 
