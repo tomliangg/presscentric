@@ -1,8 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Select from 'react-select'
+import styled from 'styled-components'
 import AccountDetail from './AccountDetail';
 import DeleteSuccess from './DeleteSuccess'
 import Spinner from './Spinner'
+
+
+const Wrapper = styled.div`
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  margin-top: 20px;
+`
 
 const data = require('./accounts.json')
 export const URL = 'https://dev.presscentric.com/test/accounts'
@@ -32,6 +39,9 @@ export default class AccountManager extends Component {
       selectedAccount: null,
       open: true
     }))
+    setTimeout(() => {
+      this.setState({ open: false })
+    }, 2000)
   }
 
   componentDidMount() {
@@ -48,7 +58,7 @@ export default class AccountManager extends Component {
     const { accounts, selectedAccount, deletedAccount, open } = this.state
     if (accounts === null) return <Spinner />
     else return (accounts.length ? (
-      <Fragment>
+      <Wrapper>
         <Select
           value={selectedAccount}
           onChange={this.handleChange}
@@ -59,7 +69,7 @@ export default class AccountManager extends Component {
         />
         <AccountDetail account={selectedAccount} deleteHandler={this.handleDelete} />
         <DeleteSuccess open={open} account={deletedAccount} />
-      </Fragment>
+      </Wrapper>
     ) : (
       <p>You have deleted all the accounts</p>
     ))

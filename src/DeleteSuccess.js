@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 `
 
 const DeleteSuccess = ({ open, account }) => {
-  console.log(account)
   return (
     <Snackbar
       open={open}
@@ -29,7 +28,6 @@ const DeleteSuccess = ({ open, account }) => {
             <CheckCircleIcon style={{ marginRight: '8px' }}/>
             <p>{account && `${account.name} has been deleted`}</p>
           </Wrapper>
-            
         }
       />
     </Snackbar>
