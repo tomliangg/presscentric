@@ -78,6 +78,11 @@ export default class AccountDetail extends Component {
 }
 
 AccountDetail.propTypes = {
-  account: PropTypes.objectOf(PropTypes.object).isRequired,
+  account: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }),
   deleteHandler: PropTypes.func.isRequired,
 }
+
+AccountDetail.defaultProps = { account: null }

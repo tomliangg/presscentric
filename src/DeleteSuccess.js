@@ -36,5 +36,10 @@ export default DeleteSuccess
 
 DeleteSuccess.propTypes = {
   open: PropTypes.bool.isRequired,
-  account: PropTypes.objectOf(PropTypes.object).isRequired,
+  account: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }),
 }
+
+DeleteSuccess.defaultProps = { account: null }
