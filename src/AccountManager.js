@@ -3,8 +3,8 @@ import Select from 'react-select'
 import Spinner from './Spinner'
 import AccountDetail from './AccountDetail';
 
-const data = require('./data.json')
-const SERVER = 'https://dev.presscentric.com/test'
+const data = require('./accounts.json')
+export const URL = 'https://dev.presscentric.com/test/accounts'
 
 export default class AccountManager extends Component {
   state = {
@@ -16,13 +16,23 @@ export default class AccountManager extends Component {
     this.setState({ selectedAccount })
   }
 
+  handleDelete = () => {
+    const { accounts, selectedAccount } = this.state
+
+    const remainingAccounts = accounts.filter(account => account.id !== selectedAccount.id)
+    this.setState({
+      accounts: remainingAccounts,
+      selectedAccount: null
+    })
+  }
+
   componentDidMount() {
-    fetch(SERVER + '/accounts')
+    fetch(URL)
       .then(res => res.json())
       .then(json => this.setState({ accounts: json }))
       .catch(err => {
         console.log(err)
-        this.setState({ accounts: data})
+        this.setState({ accounts: data })
       })
   }
 
@@ -39,7 +49,7 @@ export default class AccountManager extends Component {
           options={accounts}
           placeholder='select an account'
         />
-        <AccountDetail account={selectedAccount} />
+        <AccountDetail account={selectedAccount} deleteHandler={this.handleDelete} />
       </Fragment>
     ) : (
       <p>You have deleted all the accounts</p>
