@@ -27,3 +27,4 @@ npm start
 * https://dev.presscentric.com/test/accounts/`<account_id>` - GET and DELETE endpoints for a specific account
 
 ## Demo
+![Demo](demo.gif)
